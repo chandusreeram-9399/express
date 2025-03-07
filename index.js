@@ -1,12 +1,12 @@
 import express from 'express';
-
+import 'dotenv/config';
 const app=express();
-const port=1000;
+const port=process.env.PORT || 3000;
 app.use(express.json());
 
 let teaData=[];
 let nextId=1;
-
+//addd a tea to in mmeory db
 app.post('/teas',(req,res)=>{
 const {name,price}=req.body;
 const newTea={id:nextId++,name,price};
@@ -16,6 +16,7 @@ res.status(201).send(newTea);
 app.get('/teas',(req,res)=>{
 res.status(200).send(teaData);
 }) 
+//get a tea by unique id
 app.get('/teas/:id',(req,res)=>{
    const tea= teaData.find(t=>t.id===parseInt(req.params.id));
    if(!tea){
